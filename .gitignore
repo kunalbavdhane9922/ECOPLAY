@@ -1,0 +1,80 @@
+# ================================
+# Dependencies
+# ================================
+node_modules/
+.pnp
+.pnp.js
+
+# ================================
+# Build Outputs
+# ================================
+dist/
+dist-ssr/
+build/
+*.local
+
+# ================================
+# Environment Variables (SENSITIVE)
+# ================================
+.env
+.env.*
+!.env.example
+
+# ================================
+# Logs
+# ================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ================================
+# Editor & OS Files
+# ================================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+
+# ================================
+# Backend - Uploads
+# ================================
+backend/uploads/
+
+# ================================
+# Python / ML Service
+# ================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+ml-service/__pycache__/
+ml-service/*.egg-info/
+ml-service/.eggs/
+ml-service/dist/
+ml-service/build/
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# ================================
+# Misc
+# ================================
+*.zip
+*.tar.gz
