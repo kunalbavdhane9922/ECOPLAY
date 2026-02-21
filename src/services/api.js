@@ -1,7 +1,11 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
-const BACKEND_URL = 'http://localhost:5000';
+// Use Render deployment in production, fall back to localhost in dev
+export const BACKEND_URL = import.meta.env.DEV
+    ? 'http://localhost:5000'
+    : 'https://ecoplay-k964.onrender.com';
+
+const API_URL = `${BACKEND_URL}/api`;
 
 const api = axios.create({
     baseURL: API_URL,
@@ -110,5 +114,5 @@ export const uploadAPI = {
     },
 };
 
-export { BACKEND_URL };
+// BACKEND_URL is already a named export above
 export default api;
