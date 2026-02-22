@@ -28,7 +28,7 @@ const REDEMPTION_OPTIONS = [
 ];
 
 export default function ProfileView() {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const [stats, setStats] = useState(null);
     const [selectedRedemption, setSelectedRedemption] = useState(null);
 
@@ -73,10 +73,17 @@ export default function ProfileView() {
                         <div className="profile-level-badge">LV {user?.level || 1}</div>
                     </div>
                     <div className="profile-info">
-                        <h1 className="glow-text">{user?.name || 'Explorer'}</h1>
-                        <div className="profile-tags">
-                            <span className="profile-tag"><MapPin size={13} /> Global Explorer</span>
-                            <span className="profile-tag"><Calendar size={13} /> Joined Feb 2024</span>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                            <div>
+                                <h1 className="glow-text">{user?.name || 'Explorer'}</h1>
+                                <div className="profile-tags">
+                                    <span className="profile-tag"><MapPin size={13} /> Global Explorer</span>
+                                    <span className="profile-tag"><Calendar size={13} /> Joined Feb 2024</span>
+                                </div>
+                            </div>
+                            <button onClick={logout} className="logout-btn-profile">
+                                Sign Out
+                            </button>
                         </div>
                     </div>
                     <div className="profile-stats">

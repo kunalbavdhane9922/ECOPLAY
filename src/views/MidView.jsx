@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, Trophy, Map as MapIcon, ChevronRight, Activity, Zap, MapPin, Users, ClipboardList } from "lucide-react";
-import "./Dashboard.css";
+import "./MidView.css";
 
-function Dashboard({ onBack, onNavigate }) {
+function MidView({ onBack }) {
   const [activePanel, setActivePanel] = useState(null);
 
   const recommendedTasks = [
@@ -39,13 +39,23 @@ function Dashboard({ onBack, onNavigate }) {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="profile-btn gold-btn"
-              onClick={(e) => { e.stopPropagation(); onNavigate('profile'); }}
+              className="profile-btn"
+              onClick={(e) => e.stopPropagation()}
             >
               <User size={20} />
               <span>PROFILE</span>
             </motion.button>
 
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="profile-btn"
+              style={{ borderColor: activePanel === 'tasks' ? '#00f2ff' : 'rgba(0, 242, 255, 0.3)', background: activePanel === 'tasks' ? 'rgba(0, 242, 255, 0.2)' : '' }}
+              onClick={(e) => togglePanel(e, 'tasks')}
+            >
+              <ClipboardList size={20} />
+              <span>MISSIONS</span>
+            </motion.button>
           </div>
 
           <motion.button
@@ -63,71 +73,45 @@ function Dashboard({ onBack, onNavigate }) {
         <div className="pins-container">
           {/* Pin 1: Recommended Tasks */}
           <motion.div
-            className="island-pin mission-pin"
-            style={{ top: '40%', left: '66%' }}
-            onClick={(e) => { e.stopPropagation(); onNavigate('missions'); }}
+            className="island-pin"
+            style={{ top: '45%', left: '65%' }}
+            onClick={(e) => togglePanel(e, "tasks")}
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
-            <div className="pin-marker emerald-glow">
-              <img src="/assets/pin.png" alt="pin" className="pin-base-image" />
-              <div className="pin-icon-overlay">
-                <ClipboardList size={22} />
-              </div>
+            <div className="pin-marker" style={{ borderColor: '#00f2ff' }}>
+              <ClipboardList size={18} />
             </div>
             <div className="pin-label">Missions</div>
           </motion.div>
 
           {/* Pin 2: View on Map */}
           <motion.div
-            className="island-pin world-map-pin"
-            style={{ top: '30%', left: '43%' }}
-            onClick={(e) => { e.stopPropagation(); onNavigate('map'); }}
+            className="island-pin"
+            style={{ top: '40%', left: '35%' }}
+            onClick={(e) => { e.stopPropagation(); onBack(); }}
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
           >
-            <div className="pin-marker cyan-glow">
-              <img src="/assets/pin.png" alt="pin" className="pin-base-image" />
-              <div className="pin-icon-overlay">
-                <MapIcon size={22} />
-              </div>
+            <div className="pin-marker" style={{ borderColor: '#00f2ff' }}>
+              <MapIcon size={18} />
             </div>
             <div className="pin-label">World Map</div>
           </motion.div>
 
           {/* Pin 3: View Clan */}
           <motion.div
-            className="island-pin clan-pin"
-            style={{ top: '40%', left: '18%' }}
-            onClick={(e) => { e.stopPropagation(); onNavigate('clan'); }}
+            className="island-pin"
+            style={{ top: '65%', left: '50%' }}
+            onClick={(e) => togglePanel(e, "clan")}
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1 }}
           >
-            <div className="pin-marker pink-glow">
-              <img src="/assets/pin.png" alt="pin" className="pin-base-image" />
-              <div className="pin-icon-overlay">
-                <Users size={22} />
-              </div>
+            <div className="pin-marker" style={{ borderColor: '#ff00ea' }}>
+              <Users size={18} />
             </div>
             <div className="pin-label">Clan HUB</div>
           </motion.div>
-
-          <motion.div
-            className="island-pin report-pin"
-            style={{ top: '50%', left: '43%' }}
-            onClick={(e) => { e.stopPropagation(); onNavigate('report'); }}
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <div className="pin-marker emerald-glow">
-              <img src="/assets/pin.png" alt="pin" className="pin-base-image" />
-              <div className="pin-icon-overlay">
-                <ClipboardList size={22} />
-              </div>
-            </div>
-            <div className="pin-label">Report Issue</div>
-          </motion.div>
-
         </div>
 
         <div className="main-content-layout">
@@ -221,4 +205,4 @@ function Dashboard({ onBack, onNavigate }) {
   );
 }
 
-export default Dashboard;
+export default MidView;

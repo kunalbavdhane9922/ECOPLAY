@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
 import Sidebar from './components/Sidebar';
@@ -16,6 +17,7 @@ import LoginView from './views/LoginView';
 import VerificationView from './views/VerificationView';
 import { Globe, Map as MapIcon, ClipboardList, FileText, Users, User } from 'lucide-react';
 import './App.css';
+import MidView from './views/MidView';
 
 const MOBILE_NAV = [
     { id: 'dashboard', label: 'Map', icon: Globe },
@@ -29,12 +31,14 @@ const MOBILE_NAV = [
 
 function MainApp() {
     const { user, loading } = useAuth();
-    const [activeView, setActiveView] = useState('dashboard');
-    const [selectedTaskId, setSelectedTaskId] = useState(null);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // Get active view from path
+    const activeView = location.pathname.substring(1) || 'dashboard';
 
     const handleNavigateVerify = (taskId) => {
-        setSelectedTaskId(taskId);
-        setActiveView('verify');
+        navigate(`/verify/${taskId}`);
     };
 
     if (loading) {
@@ -49,44 +53,27 @@ function MainApp() {
         return <LoginView />;
     }
 
-    const renderView = () => {
-        switch (activeView) {
-            case 'dashboard': return <DashboardView onIslandClick={() => setActiveView('missions')} />;
-            case 'map': return <NewMapView onNavigate={setActiveView} />;
-            case 'missions': return <MissionsView onVerify={handleNavigateVerify} />;
-            case 'report': return <ReportsView />;
-            case 'clan': return <ClanView />;
-            case 'leaderboard': return <LeaderboardView />;
-            case 'impact': return <ImpactView />;
-            case 'rewards': return <RewardsView />;
-            case 'mobility': return <MobilityView />;
-            case 'profile': return <ProfileView />;
-            case 'verify': return <VerificationView taskId={selectedTaskId} onBack={() => setActiveView('missions')} />;
-            default: return <DashboardView onIslandClick={() => setActiveView('missions')} />;
-        }
-    };
-
     return (
         <div className="app-container">
-            <Sidebar activeView={activeView} onViewChange={setActiveView} />
+            <Sidebar activeView={activeView} onViewChange={(view) => navigate(`/${view}`)} />
             <main className="main-content">
-                {renderView()}
+                <Routes>
+                    <Route path="/dashboard" element={<DashboardView onBack={() => navigate('/map')} onNavigate={(v) => navigate(`/${v}`)} />} />
+                    <Route path="/map" element={<NewMapView onNavigate={(v) => navigate(`/${v}`)} />} />
+                    <Route path="/missions" element={<MissionsView onVerify={handleNavigateVerify} />} />
+                    <Route path="/report" element={<ReportsView />} />
+                    <Route path="/clan" element={<ClanView />} />
+                    <Route path="/leaderboard" element={<LeaderboardView />} />
+                    <Route path="/impact" element={<ImpactView />} />
+                    <Route path="/rewards" element={<RewardsView />} />
+                    <Route path="/mobility" element={<MobilityView />} />
+                    <Route path="/profile" element={<ProfileView />} />
+                    <Route path="/msh" element={<MidView />} />
+                    <Route path="/verify/:taskId" element={<VerificationView onBack={() => navigate('/missions')} />} />
+                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                    <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                </Routes>
             </main>
-            {/* Mobile bottom navigation */}
-            <nav className="mobile-bottom-nav">
-                <div className="mobile-nav-items">
-                    {MOBILE_NAV.map(item => (
-                        <button
-                            key={item.id}
-                            onClick={() => setActiveView(item.id)}
-                            className={`mobile-nav-item ${activeView === item.id ? 'active' : ''}`}
-                        >
-                            <item.icon size={20} />
-                            <span>{item.label}</span>
-                        </button>
-                    ))}
-                </div>
-            </nav>
         </div>
     );
 }
@@ -95,7 +82,9 @@ function App() {
     return (
         <AuthProvider>
             <SocketProvider>
-                <MainApp />
+                <Router>
+                    <MainApp />
+                </Router>
             </SocketProvider>
         </AuthProvider>
     );

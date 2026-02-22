@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { taskAPI } from '../services/api';
 import { CheckCircle, MapPin, Loader, X, Camera, Send, Info, Clock, User } from 'lucide-react';
 
-export default function VerificationView({ taskId, onBack }) {
+export default function VerificationView({ onBack }) {
+    const { taskId } = useParams();
     const [task, setTask] = useState(null);
     const [loading, setLoading] = useState(true);
     const [verifying, setVerifying] = useState(false);
