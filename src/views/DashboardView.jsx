@@ -81,7 +81,7 @@ function Dashboard({ onBack, onNavigate }) {
           {/* Pin 2: View on Map */}
           <motion.div
             className="island-pin world-map-pin"
-            style={{ top: '30%', left: '43%' }}
+            style={{ top: '25%', left: '43%' }}
             onClick={(e) => { e.stopPropagation(); onNavigate('map'); }}
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
@@ -114,7 +114,7 @@ function Dashboard({ onBack, onNavigate }) {
 
           <motion.div
             className="island-pin report-pin"
-            style={{ top: '50%', left: '43%' }}
+            style={{ top: '53%', left: '43%' }}
             onClick={(e) => { e.stopPropagation(); onNavigate('report'); }}
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
